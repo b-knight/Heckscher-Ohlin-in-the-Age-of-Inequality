@@ -1,0 +1,2 @@
+# Heckscher-Ohlin-in-the-Age-of-Inequality
+Recent works on economic inequality have sought to leverage new historical data to identify inequality's fundamental causes (Piketty 2014). However, in addition to assessing the explanatory power of the new literature, it may be prudent to reexamine the pre-existing theoretical framework in light of the most recent data. In the following paper I lay forth a series of empirical tests designed to assess the Heckscher-Ohlin model's ability to account for rising economic inequality within the developed world. 
