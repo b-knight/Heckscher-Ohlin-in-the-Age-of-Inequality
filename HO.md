@@ -47,6 +47,7 @@ where *A* is the area enclosed by the Lorenz curve, and *B* represents the unifo
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; To address these concerns, I supplement the UNU-WIDER data with the [Estimated Household Income Inequality (EHII)](http://utip.gov.utexas.edu/data.html) dataset hosted by the University of Texas Inequality Project (UTIP). Unlike UNU-WIDER, UTIP uses the Theil Index as opposed to Gini coefficients. Formally, 
 $$\text{Theil Index} \equiv \displaystyle\frac{1}{n}\displaystyle\sum\left[\frac{x_i}{\bar{x}}* ln\left(\frac{x_i}{\bar{x}}\right) \right]$$
 
+![\text{Theil Index} \equiv \displaystyle\frac{1}{n}\displaystyle\sum\left[\frac{x_i}{\bar{x}}* ln\left(\frac{x_i}{\bar{x}}\right) \right](http://latex.codecogs.com/gif.latex?1%2Bsin%28mc%5E2%29%0D%0A)
 
 
 
