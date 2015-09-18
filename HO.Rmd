@@ -47,11 +47,6 @@ output:
 
 <center>
 <html>
-<head>
-<title>LaTeX4Web 1.4 OUTPUT</title>
-<style type="text/css">
-</style>
-</head>
 <body>
 \textGini Coefficient  <font face=symbol> = </font>  A / (A + B)</body>
 </html>
