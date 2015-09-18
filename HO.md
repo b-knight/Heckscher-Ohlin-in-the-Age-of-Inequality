@@ -46,10 +46,7 @@ output:
 <br> 
 
 <center>
-<html>
-<body>
-\textGini Coefficient  <font face=symbol> = </font>  A / (A + B)</body>
-</html>
+<img src="http://www.sciweavers.org/tex2img.php?eq=%5Ctext%7BGini%20Coefficient%7D%20%5Cequiv%20A%20%2F%20%28A%20%2B%20B%29&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0" align="center" border="0" alt="\text{Gini Coefficient} \equiv A / (A + B)" width="228" height="18" />
 </center>
 
 <br> 
