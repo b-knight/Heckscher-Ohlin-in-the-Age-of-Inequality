@@ -1,11 +1,10 @@
----
-title: "Reexamining Heckscher-Ohlin in the Age of Inequality"
-author: "Benjamin S. Knight"
-date: "September 13, 2015"
-output:
-  html_document:
-    keep_md: true
----
+head>
+<title>
+Reexamining Heckscher-Ohlin in the Age of Inequality
+</title>
+</head>
+### Benjamin S. Knight
+#### September 17, 2015
 <!-- use &nbsp; to indent one space --> 
 <!-- use <br> to skip one line --> 
 <!-- enclose with * to italicize --> 
