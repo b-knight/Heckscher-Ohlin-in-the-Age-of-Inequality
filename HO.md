@@ -42,11 +42,6 @@ September 13, 2015
 
 <center>
 <html>
-<head>
-<title>LaTeX4Web 1.4 OUTPUT</title>
-<style type="text/css">
-</style>
-</head>
 <body>
 \textGini Coefficient  <font face=symbol> = </font>  A / (A + B)</body>
 </html>
@@ -69,7 +64,7 @@ where *A* is the area enclosed by the Lorenz curve, and *B* represents the unifo
 where *n* is the number of individuals within the country of interest, $x_i$ is each individual citizen, and $\bar{x}$ is the mean wealth per citizen (i.e. GDP per capita). The above expression implies that in a hypothetical situation where citizen *i* holds 100\% of the country's wealth, the Theil Index will be equal to the natural log of *i*'s wealth divided by the GDP per capita (the term in parentheses). Similar to a Gini coefficient, the Theil Index estimates the difference between a country's actual distribution of wealth versus a uniform distribution from a perfectly egalitarian country.  Galbraith and Kum have compiled a dataset of Theil Index estimates comprising 6,900 county/years. After discounting missing data, we are left with 3,918 observations - a significant improvement over the UN-WIDER data.[^2]
 <br> 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; For my third measure, I turn to the Standardized World Income Inequality Database (SWIID). Despite its relatively recent publication, multiple articles citing SWIID have appeared in such journals as *Social Science Quarterly* and *Political Research Quarterly*. SWIID works by synthesizing the UNU-WIDER dataset together with other datasets such as the OECD Income Distribution Database, Eurostat, the World Bank, and statistical offices around the world (Solt 2014). Using a form of imputation, SWIID leverages information from proximate years within the same country to estimate Gini coefficients that are missing from the UNU-WIDER data. The result is that SWIID maximizes the comparability of estimates while expanding coverage to 174 countries from the years 1960-2013 (n = 4,627), providing the largest available coverage among the three measures of economic equality discussed here (Table 1).[^3]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; For my third measure, I turn to the Standardized World Income Inequality Database (SWIID). Despite its relatively recent publication, multiple articles citing SWIID have appeared in such journals as *Social Science Quarterly* and *Political Research Quarterly*. SWIID works by synthesizing the UNU-WIDER dataset together with other datasets such as the OECD Income Distribution Database, Eurostat, the World Bank, and statistical offices around the world (Solt 2014). Using a form of imputation, SWIID leverages information from proximate years within the same country to estimate Gini coefficients that are missing from the UNU-WIDER data. The result is that SWIID maximizes the comparability of estimates while expanding coverage to 174 countries from the years 1960-2013 (n = 4,627), providing the largest available coverage among the three measures of economic equality discussed here (see <span style="color:red">Table 1</span>).[^3]
 
 [^1]: Omitted the following sub-national entities and redundancies from the UNU-WIDER dataset: U.S.S.R.; Puerto Rico; South Sudan; Taiwan; West Bank And Gaza; East Timor; Yugoslavia (1963 only).
 [^2]: Omitted the following sub-national entities and redundancies from the UTIP dataset: Country"; China (Hong Kong SAR); China (Macao SAR); China (Taiwan Province); Puerto Rico; Germany, Fed.Rep (1991-2008); and Germany (1963-1990).
