@@ -42,7 +42,22 @@ output:
 <br> 
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Economists calculate Gini coefficients by using estimates of the Lorenz curve, the Lorenz curve being the hypothetical difference in distributions of wealth between a uniform distribution versus the actual distribution for county *i*. In turn, a Gini coefficient is the ratio of area enclosed by the Lorenz curve divided by the total area under the uniform distribution. Formally, 
-$$\text{Gini Coefficient} \equiv A / (A + B)$$
+<br> 
+<br> 
+
+<center>
+<html>
+<head>
+<title>LaTeX4Web 1.4 OUTPUT</title>
+<style type="text/css">
+</style>
+</head>
+<body>
+\textGini Coefficient  <font face=symbol> = </font>  A / (A + B)</body>
+</html>
+</center>
+
+<br> 
 where *A* is the area enclosed by the Lorenz curve, and *B* represents the uniform distribution (i.e. a hypothetical society of perfect inequality). For data, I use the [World Income Inequality Database (WIID)](http://www.wider.unu.edu/research/WIID3-0B/en_GB/database/) V3.0B hosted by the United Nations University - World Institute for Development Economics Research (UNU-WIDER) (September 2014). Based upon previous work by Klaus Deininger and Lyn Squire (1996, 1998), the UNU-WIDER dataset contains 7,054 Gini coefficient estimates from 175 states and political entities dating as far back as 1867 (n = 2,821). The dataset lists multiple coefficient estimates per country/year, and assigns each estimate a score on a [1, 4] scale of quality. In preparing the data for analysis, I average together all Gini coefficients across country/year/quality assessments. I then drop the lowest quality coefficients in instances where multiple estimates remain. The summary statistics for the resulting dataset are displayed in Table 1.[^1] 
 <br> 
 
@@ -50,10 +65,17 @@ where *A* is the area enclosed by the Lorenz curve, and *B* represents the unifo
 <br> 
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; To address these concerns, I supplement the UNU-WIDER data with the [Estimated Household Income Inequality (EHII)](http://utip.gov.utexas.edu/data.html) dataset hosted by the University of Texas Inequality Project (UTIP). Unlike UNU-WIDER, UTIP uses the Theil Index as opposed to Gini coefficients. Formally, 
-$$\text{Theil Index} \equiv \displaystyle\frac{1}{n}\displaystyle\sum\left[\frac{x_i}{\bar{x}}* ln\left(\frac{x_i}{\bar{x}}\right) \right]$$
+<br> 
+<br> 
 
-<img src="http://www.sciweavers.org/tex2img.php?eq=%5Ctext%7BTheil%20Index%7D%20%5Cequiv%20%5Cdisplaystyle%5Cfrac%7B1%7D%7Bn%7D%5Cdisplaystyle%5Csum%5Cleft%5B%5Cfrac%7Bx_i%7D%7B%5Cbar%7Bx%7D%7D%2A%20ln%5Cleft%28%5Cfrac%7Bx_i%7D%7B%5Cbar%7Bx%7D%7D%5Cright%29%20%5Cright&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0" align="center" border="0" alt="\text{Theil Index} \equiv \displaystyle\frac{1}{n}\displaystyle\sum\left[\frac{x_i}{\bar{x}}* ln\left(\frac{x_i}{\bar{x}}\right) \right" width="268" height="44" />
+<center> <img src="http://www.sciweavers.org/tex2img.php?eq=%5Ctext%7BTheil%20Index%7D%20%5Cequiv%20%5Cdisplaystyle%5Cfrac%7B1%7D%7Bn%7D%5Cdisplaystyle%5Csum%5Cleft%5B%5Cfrac%7Bx_i%7D%7B%5Cbar%7Bx%7D%7D%2A%20ln%5Cleft%28%5Cfrac%7Bx_i%7D%7B%5Cbar%7Bx%7D%7D%5Cright%29%20%5Cright%5D%0A&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0" align="center" border="0" alt="\text{Theil Index} \equiv \displaystyle\frac{1}{n}\displaystyle\sum\left[\frac{x_i}{\bar{x}}* ln\left(\frac{x_i}{\bar{x}}\right) \right]" width="279" height="44" /> </center>
+<br> 
 
+where *n* is the number of individuals within the country of interest, $x_i$ is each individual citizen, and $\bar{x}$ is the mean wealth per citizen (i.e. GDP per capita). The above expression implies that in a hypothetical situation where citizen *i* holds 100\% of the country's wealth, the Theil Index will be equal to the natural log of *i*'s wealth divided by the GDP per capita (the term in parentheses). Similar to a Gini coefficient, the Theil Index estimates the difference between a country's actual distribution of wealth versus a uniform distribution from a perfectly egalitarian country.  Galbraith and Kum have compiled a dataset of Theil Index estimates comprising 6,900 county/years. After discounting missing data, we are left with 3,918 observations - a significant improvement over the UN-WIDER data.[^2]
+<br> 
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; For my third measure, I turn to the Standardized World Income Inequality Database (SWIID). Despite its relatively recent publication, multiple articles citing SWIID have appeared in such journals as *Social Science Quarterly* and *Political Research Quarterly*. SWIID works by synthesizing the UNU-WIDER dataset together with other datasets such as the OECD Income Distribution Database, Eurostat, the World Bank, and statistical offices around the world (Solt 2014). Using a form of imputation, SWIID leverages information from proximate years within the same country to estimate Gini coefficients that are missing from the UNU-WIDER data. The result is that SWIID maximizes the comparability of estimates while expanding coverage to 174 countries from the years 1960-2013 (n = 4,627), providing the largest available coverage among the three measures of economic equality discussed here (Table 1).[^3]
 
-[^1]:(Omitted the following sub-national entities and redundancies from the UNU-WIDER dataset: U.S.S.R.; Puerto Rico; South Sudan; Taiwan; West Bank And Gaza; East Timor; Yugoslavia (1963 only).)
+[^1]: Omitted the following sub-national entities and redundancies from the UNU-WIDER dataset: U.S.S.R.; Puerto Rico; South Sudan; Taiwan; West Bank And Gaza; East Timor; Yugoslavia (1963 only).
+[^2]: Omitted the following sub-national entities and redundancies from the UTIP dataset: Country"; China (Hong Kong SAR); China (Macao SAR); China (Taiwan Province); Puerto Rico; Germany, Fed.Rep (1991-2008); and Germany (1963-1990).
+[^3]: Omitted the following sub-national entities and redundancies from the SWIID dataset: U.S.S.R.; Andorra; Puerto Rico; Taiwan; Turks and Caicos; and Serbia and Montenegro (1988-1990 only).} Although SWIID presents the researcher with one hundred vectors of imputed Gini coefficients, for the time being I set aside the complexities of multiple imputation, and instead, take the mean estimate for each country/year.
