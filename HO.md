@@ -33,7 +33,10 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Economists calculate Gini coefficients by using estimates of the Lorenz curve, the Lorenz curve being the hypothetical difference in distributions of wealth between a uniform distribution versus the actual distribution for county *i*. In turn, a Gini coefficient is the ratio of area enclosed by the Lorenz curve divided by the total area under the uniform distribution. Formally, 
 <br> 
 <br> 
-<center><img src="https://latex.codecogs.com/gif.latex?\text{Gini&space;Coefficient}&space;\equiv&space;A&space;/(A&space;&plus;B)" title="\text{Gini Coefficient} \equiv A /(A +B)" /></center>
+\begin{equation}
+\text{Gini Coefficient} \equiv A /(A +B)
+\end{equation}
+
 
 
 <br> 
