@@ -1,6 +1,7 @@
 ################################################################################
 ## File name: 	Reexamining_Heckscher-Ohlin.R
-## Date:        August 29, 2015
+## Started:     August 29, 2015
+## Updated:     September 20, 2015
 ## Author:      Benjamin S. Knight (knight.benjamin@gmail.com)
 ## Purpose: 	Downloads and creates data tables of economic inequality from
 ##              three major datasets: The Standardized World Income Inequality 
@@ -56,7 +57,14 @@ library(dplyr)
 WIID <- select(WIID, Countrycode2, Countrycode3, Country, Year, Gini, Quality)
 WIID$Quality <- as.character(WIID$Quality)
 WIID <- filter(WIID,  Year >= 1963 & Year <= 2008)
-dropped_countries <- c("Ussr", "Puerto Rico", "Taiwan", "West Bank And Gaza", "East Timor", "Yugoslavia")
+dropped_countries <- c("Ussr", "Belarus", "Puerto Rico", "Taiwan", "West Bank And Gaza", 
+                       "East Timor", "Yugoslavia", "Bhutan", "Cape Verde", "Chad", 
+                       "Comoros", "Congo", "Czechoslovakia", "Djibouti", "Guinea",
+                       "Guinea-Bissau", "Guyana", "Laos", "Lebanon", "St. Lucia",
+                       "Maldives", "Mali", "Mauritania", "Micronesia, Federated States Of",
+                       "Montenegro", "Namibia", "Niger", "Reunion", "Sao Tome And Principe",
+                       "Serbia", "Serbia And Montenegro", "Sierra Leone", "Tajikistan", 
+                       "Turkmenistan", "Uzbekistan", "Vietnam")
 WIID <- filter(WIID,  !(Country %in% dropped_countries))
 WIID$Quality[WIID$Quality == "High"] <- 3              # assign numeric code to the quality estimate
 WIID$Quality[WIID$Quality == "Average"] <- 2
@@ -74,8 +82,55 @@ combined <- summaryBy(Gini ~ Country + Year, data = combined)
 library(reshape2)
 WIID <- dcast(combined, Country ~ Year, value.var = "Gini.mean")
 rm(max, combined, dropped_countries)
+WIID$Country <- as.character(WIID$Country)
+WIID$Country[WIID$Country == "Bosnia And Herzegowina"] <- "Bosnia and Herzegovina"
+WIID$Country[WIID$Country == "Central Affrican Republic"] <- "Central African Republic"
+WIID$Country[WIID$Country == "Congo, The Drc"] <- "Congo"
+WIID$Country[WIID$Country == "Cote D'Ivoire"] <- "Ivory Coast"
+WIID$Country[WIID$Country == "Korea, Republic Of"] <- "Republic of Korea"
+WIID$Country[WIID$Country == "Slovak Republic"] <- "Slovakia"
+WIID$Country[WIID$Country == "Macedonia, Fyr"] <- "Macedonia"
+WIID$Country[WIID$Country == "Slovak Republic"] <- "Slovakia"
+WIID$Country[WIID$Country == "Trinidad And Tobago"] <- "Trinidad and Tobago"
+WIID$Country[WIID$Country == "Zimbabwe\xa0"] <- "Zimbabwe"
+WIID <- WIID[order(WIID$Country),]
+rownames(WIID) <- seq(length=nrow(WIID))
 
-
-
+# Clean the EHII data
+library(data.table)
+EHII <- setnames(EHII, old = c("X1963", "X1964", "X1965", "X1966", "X1967",
+        "X1968", "X1969", "X1970", "X1971", "X1972", "X1973", "X1974", "X1975",   
+        "X1976", "X1977", "X1978", "X1979", "X1980", "X1981", "X1982", "X1983",   
+        "X1984", "X1985", "X1986", "X1987", "X1988", "X1989", "X1990", "X1991",   
+        "X1992", "X1993", "X1994", "X1995", "X1996", "X1997", "X1998", "X1999",   
+        "X2000", "X2001", "X2002", "X2003", "X2004", "X2005", "X2006", "X2007",
+        "X2008"), new = c("1963", "1964", "1965", "1966", "1967", "1968", "1969",
+        "1970", "1971", "1972", "1973", "1974", "1975", "1976", "1977", "1978",
+        "1979", "1980", "1981", "1982", "1983", "1984", "1985", "1986", "1987",
+        "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996",
+        "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005",
+        "2006", "2007", "2008"))
+EHII <- setnames(EHII, old = "Code..", new = "drop")
+EHII$drop <- NULL
+EHII$Code <- NULL
+EHII$Country <- as.character(EHII$Country)
+EHII$Country[EHII$Country == "Bolivia (Plurinational State of)"] <- "Bolivia"
+EHII$Country[EHII$Country == "Iran (Islamic Republic of)"] <- "Iran"
+EHII$Country[EHII$Country == "China (Hong Kong SAR)"] <- "Hong Kong"
+EHII$Country[EHII$Country == "Myanmar (Burma)"] <- "Myanmar"
+EHII$Country[EHII$Country == "Peru*"] <- "Peru"
+EHII$Country[EHII$Country == "Republic of Moldova"] <- "Moldova"
+EHII$Country[EHII$Country == "Côte d'Ivoire"] <- "Ivory Coast"
+EHII$Country[EHII$Country == "Syrian Arab Republic"] <- "Syria"
+EHII$Country[EHII$Country == "The f. Yugosl. Rep. of Macedonia"] <- "Macedonia"
+EHII$Country[EHII$Country == "United Republic of Tanzania"] <- "Tanzania"
+EHII$Country[EHII$Country == "United States of America"] <- "United States"
+dropped_countries_EHII <- c("China (Macao SAR)", "China (Taiwan Province)",
+                            "Eritrea", "Germany, Dem.Rep", "Germany, Fed.Rep",
+                            "Kuwait", "Libyan Arab Jamahiriya", "Oman",
+                            "Puerto Rico", "Tonga", "United Arab Emirates",
+                            "Yugoslavia")
+EHII <- filter(EHII, !(Country %in% dropped_countries_EHII))
+EHII <- EHII[order(EHII$Country),] 
 
 
