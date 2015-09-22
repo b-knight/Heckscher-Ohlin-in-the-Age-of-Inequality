@@ -44,27 +44,41 @@ if (!file.exists("SWIIDv5_0.zip")) {
   fileUrl_3 <- "https://dataverse.harvard.edu/api/access/datafile/2503756"
   download.file(fileUrl_3, destfile = "./SWIIDv5_0.zip", method = "curl") # 11.1mb
   rm(fileUrl_3)}
+# Acquire the IMF trade data from the Direction of Trade (DOT) dataset
+# if (!file.exists("DOT_09-14-2015 04-15-20-95_panel.zip")) {
+#        fileUrl_4 <- paste("http://data-download.imf.org/GetFileService.svc",
+#                           "/GetFile/84916d7d-0615-4b40-8ded-c404f3111518", sep="")
+#        download.file(fileUrl_4, destfile = "./DOT_09-14-2015 04-15-20-95_panel.zip", 
+#                      method = "curl") # 306.3mb
+#        rm(fileUrl_4)}
+# Acquire the Polity IV data from the Center Systemic Peace
+if (!file.exists("p4v2014.xls")) {
+        fileUrl_5 <- "http://www.systemicpeace.org/inscr/p4v2014.xls"
+        download.file(fileUrl_5, destfile = "./p4v2014.xls", method = "curl") # 11.1mb
+        rm(fileUrl_5)}
 # Read the downloaded data into R
 WIID <- data.table(read.xls("WIID3b_1.xls", sheet = "Sheet1")) # 4mb
 EHII <- data.table(read.xlsx2("EHII-UPDATED-10-30-2013.xlsx", 
                               sheetName = "Sheet1")) # 70kb
+Polity <- data.table(read.xls("p4v2014.xls", sheet = "p4v2014")) # 4.2mb
 unzip("SWIIDv5_0.zip", unzip = "internal")
 setwd("./SWIIDv5_0")
 SWIID <- data.table(read_dta("SWIIDv5_0.dta"))
 
-# Clean the WIID data
+# Tidy the WIID data
 library(dplyr)
 WIID <- select(WIID, Countrycode2, Countrycode3, Country, Year, Gini, Quality)
 WIID$Quality <- as.character(WIID$Quality)
 WIID <- filter(WIID,  Year >= 1963 & Year <= 2008)
-dropped_countries <- c("Ussr", "Belarus", "Puerto Rico", "Taiwan", "West Bank And Gaza", 
-                       "East Timor", "Yugoslavia", "Bhutan", "Cape Verde", "Chad", 
-                       "Comoros", "Congo", "Czechoslovakia", "Djibouti", "Guinea",
-                       "Guinea-Bissau", "Guyana", "Laos", "Lebanon", "St. Lucia",
+dropped_countries <- c("Ussr", "Bahamas", "Belarus", "Puerto Rico", "Taiwan", "West Bank And Gaza", 
+                       "East Timor", "Yugoslavia", "Bhutan", "Cape Verde", "Chad", "Barbados",
+                       "Comoros", "Congo", "Czechoslovakia", "Djibouti", "Guinea", "Belize",
+                       "Guinea-Bissau", "Guyana", "Laos", "Lebanon", "St. Lucia", "Hong Kong",
                        "Maldives", "Mali", "Mauritania", "Micronesia, Federated States Of",
                        "Montenegro", "Namibia", "Niger", "Reunion", "Sao Tome And Principe",
-                       "Serbia", "Serbia And Montenegro", "Sierra Leone", "Tajikistan", 
-                       "Turkmenistan", "Uzbekistan", "Vietnam")
+                       "Serbia", "Serbia And Montenegro", "Sierra Leone", "Tajikistan", "Iceland", 
+                       "Turkmenistan", "Uzbekistan", "Vietnam", "Iraq", "Myanmar", "Qatar",
+                       "Malta", "Seychelles")
 WIID <- filter(WIID,  !(Country %in% dropped_countries))
 WIID$Quality[WIID$Quality == "High"] <- 3              # assign numeric code to the quality estimate
 WIID$Quality[WIID$Quality == "Average"] <- 2
@@ -93,10 +107,12 @@ WIID$Country[WIID$Country == "Macedonia, Fyr"] <- "Macedonia"
 WIID$Country[WIID$Country == "Slovak Republic"] <- "Slovakia"
 WIID$Country[WIID$Country == "Trinidad And Tobago"] <- "Trinidad and Tobago"
 WIID$Country[WIID$Country == "Zimbabwe\xa0"] <- "Zimbabwe"
+WIID$Country[WIID$Country == "Russian Federation"] <- "Russia"
 WIID <- WIID[order(WIID$Country),]
 rownames(WIID) <- seq(length=nrow(WIID))
+WIID$Data_Source <- "WIID"
 
-# Clean the EHII data
+# Tidy the EHII data
 library(data.table)
 EHII <- setnames(EHII, old = c("X1963", "X1964", "X1965", "X1966", "X1967",
         "X1968", "X1969", "X1970", "X1971", "X1972", "X1973", "X1974", "X1975",   
@@ -116,7 +132,6 @@ EHII$Code <- NULL
 EHII$Country <- as.character(EHII$Country)
 EHII$Country[EHII$Country == "Bolivia (Plurinational State of)"] <- "Bolivia"
 EHII$Country[EHII$Country == "Iran (Islamic Republic of)"] <- "Iran"
-EHII$Country[EHII$Country == "China (Hong Kong SAR)"] <- "Hong Kong"
 EHII$Country[EHII$Country == "Myanmar (Burma)"] <- "Myanmar"
 EHII$Country[EHII$Country == "Peru*"] <- "Peru"
 EHII$Country[EHII$Country == "Republic of Moldova"] <- "Moldova"
@@ -125,12 +140,128 @@ EHII$Country[EHII$Country == "Syrian Arab Republic"] <- "Syria"
 EHII$Country[EHII$Country == "The f. Yugosl. Rep. of Macedonia"] <- "Macedonia"
 EHII$Country[EHII$Country == "United Republic of Tanzania"] <- "Tanzania"
 EHII$Country[EHII$Country == "United States of America"] <- "United States"
-dropped_countries_EHII <- c("China (Macao SAR)", "China (Taiwan Province)",
-                            "Eritrea", "Germany, Dem.Rep", "Germany, Fed.Rep",
-                            "Kuwait", "Libyan Arab Jamahiriya", "Oman",
+EHII$Country[EHII$Country == "Russian Federation"] <- "Russia"
+dropped_countries_EHII <- c("Bahamas", "China (Macao SAR)", "China (Taiwan Province)",
+                            "Eritrea", "Germany, Dem.Rep", "Germany, Fed.Rep", "Belize",
+                            "Kuwait", "Libyan Arab Jamahiriya", "Oman", "Barbados",
                             "Puerto Rico", "Tonga", "United Arab Emirates",
-                            "Yugoslavia")
+                            "Yugoslavia", "Iraq", "Myanmar", "Qatar", "Iceland",
+                            "China (Hong Kong SAR)", "Malta", "Seychelles")
 EHII <- filter(EHII, !(Country %in% dropped_countries_EHII))
-EHII <- EHII[order(EHII$Country),] 
+EHII <- EHII[order(EHII$Country),]
+rownames(EHII) <- seq(length=nrow(EHII))
+rm(dropped_countries_EHII)
+EHII$Data_Source <- "EHII"
+
+# Tidy the SWIID data
+library(dplyr)
+SWIID <- filter(SWIID,  year >= 1963 & year <= 2008)
+SWIID <- as.data.frame(SWIID)
+means <- SWIID[,c(4:103)]
+labels <- SWIID[,c(1:2)]
+means <- as.data.frame(rowMeans(means))
+SWIID <- cbind(labels, means)
+rm(labels, means)
+library(reshape2)
+SWIID <- dcast(SWIID, country ~ year, value.var = "rowMeans(means)")
+SWIID <- rename(SWIID, Country = country)
+dropped_countries_SWIID <- c("Andorra", "Anguilla", "Bahamas", "Belarus", "Bhutan",
+                             "Cape Verde", "Cayman Islands", "Chad", "Barbados",
+                             "Comoros", "Congo, Republic of", "Czechoslovakia",
+                             "Djibouti", "Dominica", "Grenada", "Guinea", "Belize",
+                             "Guinea-Bissau", "Guyana", "Lao", "Lebanon", "Maldives",
+                             "Mali", "Mauritania", "Montenegro", "Namibia", "Niger",
+                             "Puerto Rico", "Sao Tome and Principe", "Serbia",
+                             "Serbia and Montenegro", "Sierra Leone", "St. Lucia",
+                             "St. Vincent and the Grenadines", "Taiwan", "Tajikistan",
+                             "Timor-Leste", "Turkmenistan", "Turks and Caicos",
+                             "USSR", "Uzbekistan", "Viet Nam", "Yugoslavia",
+                             "Hong Kong", "Iceland", "Malta", "Seychelles")
+SWIID <- filter(SWIID,  !(Country %in% dropped_countries_SWIID))
+SWIID$Country[SWIID$Country == "Congo, Democratic Republic of"] <- "Congo"
+SWIID$Country[SWIID$Country == "Cote d'Ivoire"] <- "Ivory Coast"
+SWIID$Country[SWIID$Country == "Korea, Republic of"] <- "Republic of Korea"
+SWIID$Country[SWIID$Country == "Kyrgyz Republic"] <- "Kyrgyzstan"
+SWIID$Country[SWIID$Country == "Macedonia, FYR"] <- "Macedonia"
+SWIID$Country[SWIID$Country == "Slovak Republic"] <- "Slovakia"
+SWIID$Country[SWIID$Country == "Yemen, Republic of"] <- "Yemen"
+SWIID$Country[SWIID$Country == "Russian Federation"] <- "Russia"
+SWIID <- SWIID[order(SWIID$Country),]
+rownames(SWIID) <- seq(length=nrow(SWIID))
+rm(dropped_countries_SWIID)
+SWIID$Data_Source <- "SWIID"
+
+# Tidy the Polity data
+library(dplyr)
+Polity <- filter(Polity,  year >= 1963 & year <= 2008)
+Polity[129,2] <- Polity[165,2]
+Polity[129,3] <- Polity[165,3]
+Polity[129,4] <- Polity[165,4]
+Polity[129,5] <- Polity[165,5]
+Polity[129,6] <- Polity[165,6]
+Polity[129,7] <- Polity[165,7]
+Polity[129,8] <- Polity[165,8]
+Polity[129,9] <- Polity[165,9]
+Polity[129,10] <- Polity[165,10]
+Polity[129,11] <- Polity[165,11]
+Polity[129,12] <- Polity[165,12]
+Polity[129,13] <- Polity[165,13]
+Polity[129,14] <- Polity[165,14]
+Polity[129,15] <- Polity[165,15]
+Polity[129,16] <- Polity[165,16]
+Polity[129,17] <- Polity[165,17]
+Polity[129,18] <- Polity[165,18]
+Polity[129,19] <- Polity[165,19]
+Polity[129,20] <- Polity[165,20]
+Polity[129,21] <- Polity[165,21]
+Polity[129,22] <- Polity[165,22]
+Polity[129,23] <- Polity[165,23]
+Polity[129,24] <- Polity[165,24]
+Polity[129,25] <- Polity[165,25]
+Polity[129,26] <- Polity[165,26]
+Polity[129,27] <- Polity[165,27]
+Polity[129,28] <- Polity[165,28]
+Polity[129,29] <- Polity[165,29]
+Polity[129,30] <- Polity[165,30]
+Polity <- select(Polity, country, year, polity2)
+Polity <- dcast(Polity, country ~ year, value.var = "polity2", fun=mean)
+dropped_countries_Polity <- c("Bahrain", "Belarus", "Bhutan", "Cape Verde", "Chad",
+                              "Comoros", "Congo Brazzaville", "Czechoslovakia",
+                              "Djibouti", "East Timor", "Equatorial Guinea", "Eritrea",
+                              "Germany East", "Germany West", "Guinea", "Guinea-Bissau",
+                              "Guyana", "Iraq", "Korea North", "Kosovo", "Kuwait", 
+                              "Laos", "Lebanon", "Libya", "Mali", "Mauritania", "Montenegro",
+                              "Myanmar (Burma)", "Namibia", "Niger", "Oman", "Qatar",
+                              "Saudi Arabia", "Serbia", "Serbia and Montenegro", "Sierra Leone",
+                              "Solomon Islands", "Taiwan", "Tajikistan", "Turkmenistan",
+                              "UAE", "Uzbekistan", "Vietnam", "Vietnam North", "Vietnam South",
+                              "Yemen North", "Yemen South", "Yugoslavia", "USSR")
+Polity <- filter(Polity,  !(country %in% dropped_countries_Polity))
+Polity$country <- as.character(Polity$country)
+Polity$country[Polity$country == "Bosnia"] <- "Bosnia and Herzegovina"
+Polity$country[Polity$country == "Congo Kinshasa"] <- "Congo"
+Polity$country[Polity$country == "Korea South"] <- "Republic of Korea"
+Polity$country[Polity$country == "Slovak Republic"] <- "Slovakia"
+Polity <- Polity[order(Polity$country),]
+rownames(Polity) <- seq(length=nrow(Polity))
+rm(dropped_countries_Polity)
+
+
+
+
+#################################################################
+#index <- as.numeric(Polity$polity2) >= 6
+#Polity$Demo[index] <- 1
+#index <- as.numeric(Polity$polity2) < -6
+#Polity$Auto[index] <- 1
+#Polity$Demo[is.na(Polity$Demo)] <- 0
+#Polity$Auto[is.na(Polity$Auto)] <- 0
+#Polity <- select(Polity, country, year, Demo, Auto)
+#Polity <- setnames(Polity, old = "country", new = "Country")
+#Polity <- setnames(Polity, old = "year", new = "Year")
+
+
+
+
 
 
